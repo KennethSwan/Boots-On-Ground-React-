@@ -50,7 +50,7 @@ class App extends Component {
     if (parsedRegisterResponse.status.code === 201){
       this.setState({
         loggedIn: true, 
-        loggedInUserName: parsedRegisterResponse.data.username
+        loggedInUserEmail: parsedRegisterResponse.data.email
       })
     } else {
       console.log("Registration failed: ");

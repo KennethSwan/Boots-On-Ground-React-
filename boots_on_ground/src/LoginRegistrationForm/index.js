@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, Button, Label } from 'semantic-ui-react';
 
 class LoginRegisterForm extends React.Component {
