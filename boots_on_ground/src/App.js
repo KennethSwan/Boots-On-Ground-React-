@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import LoginRegisterForm from './LoginRegistrationForm';
-import { Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react';
+
+
 
 class App extends Component {
   constructor(){
@@ -9,12 +11,13 @@ class App extends Component {
 
     this.state= {
       loggedIn: false,
-      loggedInUserName: null,
+      loggedInUserName: null
     }
   }
 
   login = async (loginInfo) => {
-    const response = await fetch(process.env.REACT_APP_API_URL + '/user/login', {
+    console.log(process.env.REACT_APP_API_URL + '/user/login');
+    const response = await fetch(process.env.REACT_APP_API_URL + '/user/login', {     
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify(loginInfo),
