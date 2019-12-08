@@ -27,7 +27,7 @@ class App extends Component {
     })
 
     const parsedLoginResponse = await response.json()
-    if (parsedLoginResponse.status.code === 200) {
+    if (parsedLoginResponse.status === 200) {
       this.setState({
         loggedIn: true, 
         loggedInUserName: parsedLoginResponse.data.username
@@ -50,7 +50,7 @@ class App extends Component {
     })
     const parsedRegisterResponse = await response.json()
 
-    if (parsedRegisterResponse.status.code === 201){
+    if (parsedRegisterResponse.status === 201){
       this.setState({
         loggedIn: true, 
         loggedInUserEmail: parsedRegisterResponse.data.email
