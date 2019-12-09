@@ -8,7 +8,9 @@ class LoginRegisterForm extends React.Component {
 		this.state={
 			'email': '',
 			'username': '',
+			'orgname': '',
 			'password': '',
+
 			action: 'login'
 		}
 	}
@@ -25,7 +27,7 @@ class LoginRegisterForm extends React.Component {
 				username: this.state.username,
 				password: this.state.password
 			})
-		}
+		} 
 	}
 
 	switchForm = () => {
