@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import LoginRegisterForm from './LoginRegistrationForm';
-//import CategoryContainer from './CategoryContainer';
+import CategoryContainer from './CategoryContainer';
 import ResourceContainer from './ResourceContainer';
-import CreateResource from './CreateResourceForm'
 import { Button } from 'semantic-ui-react';
 
 
@@ -21,7 +20,7 @@ class App extends Component {
   }
 
   login = async (loginInfo) => {
-    const response = await fetch(process.env.REACT_APP_API_URL + '/user/login', {    
+    const response = await fetch(process.env.REACT_APP_API_URL + '/user/login/', {    
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify(loginInfo),
@@ -37,12 +36,13 @@ class App extends Component {
         loggedInUserName: parsedLoginResponse.data.username
       })
     } else {
+      console.log('Login failed');
       console.log(parsedLoginResponse);
     }
   }
 
   register = async (registerInfo) => {
-    const response = await fetch(process.env.REACT_APP_API_URL + '/user/register', {
+    const response = await fetch(process.env.REACT_APP_API_URL + '/organization/register/', {
       method: "POST", 
       credentials: 'include',
       body: JSON.stringify(registerInfo),
@@ -55,36 +55,37 @@ class App extends Component {
     if (parsedRegisterResponse.status === 201){
       this.setState({
         loggedIn: true, 
-        loggedInUserEmail: parsedRegisterResponse.data.email
+        loggedInUserName: parsedRegisterResponse.data.username
       })
     } else {
+      console.log('Registration failed');
       console.log(parsedRegisterResponse);
     }
   }
-  chooseResource = (resource) => {
+  chooseCategory = (category) => {
     this.setState({
-      resourceChosen: resource
+      categoryChosen: category
     })
   }
 render(){
   return (
     <div className="App">
-    {
-      this.state.loggedIn
-      ?
-      <Button onClick={()=>this.logout()}>Go AWOL</Button>
-      :
-      <LoginRegisterForm login={this.login} register={this.register}/>
-    }
-    {
-      this.state.resourceChosen === ''
-      ?
-      <ResourceContainer chosenResource={this.chooseResource}/>
-      :
-      <CreateResource chosenResource={this.state.resourceChosen} chooseResource={this.chooseResource}/>
-    }
+      {
+        this.state.loggedIn
+        ?
+        <Button onClick={()=>this.logout()}>Go AWOl</Button>
+        :
+        <LoginRegisterForm login={this.login} register={this.register}/>
+        }
+        {
+          this.state.loggedIn
+          ?
+          <CategoryContainer/>
+          :
+          null
+        }
     </div>
-  )
+  );
 }
 }
 

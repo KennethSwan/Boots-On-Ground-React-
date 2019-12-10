@@ -93,7 +93,7 @@ class LoginRegisterForm extends React.Component {
 						?
 						<small>Already have an account? Log in <span onClick={this.switchForm}>here</span>!</small>
 						:
-						<small>Need an account? Sign up <span onClick={this.switchForm}>here</span>!</small>
+						<small>Are you an organization? Sign up <span onClick={this.switchForm}>here</span>!</small>
 					}
 				</div>
 			)
