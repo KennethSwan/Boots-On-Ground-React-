@@ -8,7 +8,7 @@ function EditResourceModal(props){
 			<Modal.Content>
 				<Form onSubmit={props.updateResource}>
 					<Label> Organization: </Label>
-					<Form.Input type ="text" name="org_name" value={props.resourceToEdit.org_name} onChange={props.handleEditChange} />
+					<Form.Input type ="text" name="organization" value={props.resourceToEdit.org_name} onChange={props.handleEditChange} />
 
 					<Label> Url: </Label>
 					<Form.Input type="text" name="url" value={props.resourceToEdit.url} onChange={props.handleEditChange}/>

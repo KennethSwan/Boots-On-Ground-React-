@@ -162,8 +162,6 @@ export default class ResourceContainer extends Component {
 			>
 				<Grid.Row>
 		          	<Grid.Column>
-		          	</Grid.Column>
-		          	<Grid.Column>
 		          	{ 
 		          		this.state.numberOfResourcesOpen === 0
 		          		?
@@ -181,14 +179,9 @@ export default class ResourceContainer extends Component {
 	         			/>
 					<Grid.Column>
 						{ this.state.resources.length > 0 ?
-							<ResourceList resources={this.state.resources}/>
+							<ResourceList resources={this.state.resources} editResource={this.editResource}/>
 							:
 							null
-							//editResource={this.editResource}
-							//chosenCategory={this.props.chosenCategory}
-							//resourceFocus={this.state.resourceFocus}
-							//toggleResourceFocus={this.toggleResourceFocus}
-							//increaseNumberOfResourcesOpen={this.increaseNumberOfResourcesOpen}
 						}
 					</Grid.Column>
 				</Grid.Row>
