@@ -37,7 +37,7 @@ export default class ResourceContainer extends Component {
 	addResource = async (e, resourceFromTheForm) => {
 		e.preventDefault();
 		try {
-			const createdResourceResponse = await fetch(process.env.REACT_APP_API_URL + '/resource/', {
+			const createdResourceResponse = await fetch(process.env.REACT_APP_API_URL + '/resource/new', {
 				method: 'POST',
 				credentials: 'include', 
 				body: JSON.stringify(resourceFromTheForm),
@@ -45,9 +45,10 @@ export default class ResourceContainer extends Component {
 					'Content-Type': 'application/json'
 				}
 			})
+			console.log(createdResourceResponse);
 			const parsedResponse = await createdResourceResponse.json();
 			console.log(parsedResponse);
-			this.setState({resources: [...this.state.resources, parsedResponse.data]})
+			this.setState({resources: [...this.state.resources, parsedResponse.resource]})
 		} catch(err){
 			console.log(err);
 		}
