@@ -25,7 +25,7 @@ class EditResourceModal extends Component {
 
 	render(){ 
 	return(
-		<Modal open={this.props.open} onClose={this.props.closeModal}>
+		<Modal open={this.props.open} onClose={this.props.closeEditModal}>
 		<Header>Edit Resource</Header>
 		<Modal.Content>
 		<Form onSubmit={(e) => this.props.updateResource(e, this.state)}>
@@ -42,8 +42,8 @@ class EditResourceModal extends Component {
 		<Label>Description:</Label>
 		<Form.Input type='text' name ='description' value={this.state.description} onChange={this.handleChange}/>
 		<Modal.Actions>
-		<Button color='red' type="submit"> Update Resource </Button>
-		<Button color='yellow' onClick={this.props.closeModal}> Close </Button>
+		<Button color='green' type="submit"> Update Resource </Button>
+		<Button color='yellow' onClick={this.props.closeEditModal}> Close </Button>
 		</Modal.Actions>
 		</Form>
 		</Modal.Content>

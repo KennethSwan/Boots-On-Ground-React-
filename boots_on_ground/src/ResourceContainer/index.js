@@ -141,15 +141,10 @@ export default class ResourceContainer extends Component {
 		}
 	}
 
-	closeEditModal = () => {
-		this.setState({
-			editModalOpen: false
-		})
-	}
 
 	deleteResource = async (resource) => {
 		console.log(resource);
-		const deleteResourceResponse = await fetch(process.env.REACT_APP_API_URL + '/resource', {
+		const deleteResourceResponse = await fetch(process.env.REACT_APP_API_URL + '/resource/' + resource, {
 			method: 'DELETE',
 			credentials: 'include'
 		})
@@ -159,6 +154,11 @@ export default class ResourceContainer extends Component {
 			this.getResource()
 	}
 
+	closeEditModal = () => {
+		this.setState({
+			editModalOpen: false
+		})
+	}
 		render(props){
 			console.log(this.state.resourceToEdit)
 		return(
