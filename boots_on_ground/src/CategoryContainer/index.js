@@ -18,13 +18,15 @@ class CategoryContainer extends Component {
 
 	getCategories = async () => {
 		try {
-			const categories = await fetch(process.env.REACT_APP_API_URL + '/resource/category/');
+			const categories = await fetch(process.env.REACT_APP_API_URL + '/resource/');
+			console.log(categories);
 			const parsedCategories = await categories.json();
 			this.setState({
 				categories: parsedCategories.data
 			})
 		} catch(err) {
 			console.log(err);
+
 		}
 	}
 

@@ -6,60 +6,89 @@ import CategoryContainer from '../CategoryContainer';
 
 class ResourceList extends Component {
 	constructor(props){
-		super(props)
-		this.state = ({
-			resourcesShowing: -1, 
-		})
-	}
-
-	componentDidMount(){
-	}
-
-
-
-	showResources = (resourceId) => {
-		if (resourceId === this.state.resourcesShowing){
-			this.props.increaseNumberOfResourcesOpen('add')
-			this.props.toggleResourceFocus()
-			this.setState({
-				resourcesShowing: -1
-			})
-		} else {
-			this.props.increaseNumberOfResourcesOpen(0)
-			this.props.toggleResourceFocus()
-			this.setState({
-				resourcesShowing: resourceId
-			})
+		console.log("props");
+		console.log(props);
+		super(props);
+		this.state = {
+			resources: this.props.resources
 		}
 	}
 
-	render(props){
-		const resources = 
-			this.props.resources.filter(album => resources.category === this.props.chosenCategory).map((resource) => {
-				return (
-					<React.Fragment key={resource.id}>
-						<Card>
-							<Card.Content>
-								<Card.Header>{resource.org_name}</Card.Header>
-								<Card.Description>{resource.url}</Card.Description>
-								<Card.Description>{resource.phoneNumber}</Card.Description>
-								<Card.Description>{resource.email}</Card.Description>
-								<Card.Description>{resource.category}</Card.Description>
-								<Card.Description>{resource.description}</Card.Description>
-							</Card.Content>
-								<Card.Content extra>
-									<Button onClick={() => this.props.editResource(resource.id)}> Edit Resource</Button>
-								</Card.Content>
-							</Card>	
-					</React.Fragment>
-			)
-		})
-	return (
-		<Card.Group>
-			{ resources }
-		</Card.Group>
-		)
+	componentDidMount(){
+		console.log("this.state -- ResourceList");
+		console.log(this.state);
+	}
 
+	resourceList = () =>{
+
+		const list  = this.state.resources.map((resource)=>{
+
+			return (
+					<div>
+					<h1>{resource.category}</h1>
+					<h3>{resource.org_name}</h3>
+					<h4>{resource.description}</h4>
+					<h6>{resource.url}</h6>
+					<hr/>
+					</div>
+					)
+
+
+		})
+
+		return list
+
+	}
+
+	// showResources = (resourceId) => {
+	// 	if (resourceId === this.state.resourcesShowing){
+	// 		this.props.increaseNumberOfResourcesOpen('add')
+	// 		this.props.toggleResourceFocus()
+	// 		this.setState({
+	// 			resourcesShowing: -1
+	// 		})
+	// 	} else {
+	// 		this.props.increaseNumberOfResourcesOpen(0)
+	// 		this.props.toggleResourceFocus()
+	// 		this.setState({
+	// 			resourcesShowing: resourceId
+	// 		})
+	// 	}
+	// }
+
+	render(){
+	// 	const resources = 
+	// 		this.state.resources.filter(resource => resources.category === this.props.chosenCategory).map((resource) => {
+	// 			return (
+	// 				<React.Fragment key={resource.id}>
+	// 					<Card>
+	// 						<Card.Content>
+	// 							<Card.Header>{resource.org_name}</Card.Header>
+	// 							<Card.Description>{resource.url}</Card.Description>
+	// 							<Card.Description>{resource.phoneNumber}</Card.Description>
+	// 							<Card.Description>{resource.email}</Card.Description>
+	// 							<Card.Description>{resource.category}</Card.Description>
+	// 							<Card.Description>{resource.description}</Card.Description>
+	// 						</Card.Content>
+	// 							<Card.Content extra>
+	// 								<Button onClick={() => this.props.editResource(resource.id)}> Edit Resource</Button>
+	// 							</Card.Content>
+	// 						</Card>	
+	// 				</React.Fragment>
+	// 		)
+	// 	})
+
+	// return (
+	// 	<Card.Group>
+	// 		{ resources }
+	// 	</Card.Group>
+	// 	)
+	//console.log("this.state --- resource list")
+	//console.log(this.state)
+	return (
+
+		<div>{this.resourceList()}</div>
+	)
 	}
 } 
 

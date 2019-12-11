@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import LoginRegisterForm from './LoginRegistrationForm';
 import CategoryContainer from './CategoryContainer';
+import CategoryList from './CategoryList';
 import ResourceContainer from './ResourceContainer';
 import { Button } from 'semantic-ui-react';
 
@@ -13,7 +14,7 @@ class App extends Component {
     super()
 
     this.state= {
-      loggedIn: false,
+      loggedIn: true,
       loggedInUserName: null,
       chosenCategory: ''
     }
@@ -77,13 +78,13 @@ render(){
         :
         <LoginRegisterForm login={this.login} register={this.register}/>
         }
-        {
-          this.state.loggedIn
-          ?
-          <CategoryContainer/>
+      {
+        this.state.categoryChosen === ''
+        ?
+          <CategoryList chooseCategory={this.chooseCategory}/>
           :
-          null
-        }
+          <ResourceContainer chosenCategory={this.state.categoryChosen} chooseCategory={this.chooseCategory}/>
+      }
     </div>
   );
 }

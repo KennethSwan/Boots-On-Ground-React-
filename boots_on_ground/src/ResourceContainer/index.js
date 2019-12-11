@@ -25,7 +25,7 @@ export default class ResourceContainer extends Component {
 		}
 	}
 	componentDidMount(){
-		this.getResources();
+		this.getResource();
 	}
 
 	toggleResourceFocus = () => {
@@ -53,15 +53,33 @@ export default class ResourceContainer extends Component {
 		}
 	}
 
+	// getResource = async () => {
+	//  	try {
+	// 		const resources = await fetch(process.env.REACT_APP_API_URL + '/resource/')
+	//  		const parsedResource = await resources.json();
+	//  		this.setState({
+	//  			resources: parsedResource.data
+	//  		})
+	// 	} catch(err) {
+	//  		console.log(err);
+	//  	}
+	//  }
 	getResource = async () => {
 		try {
-			const resources = await fetch(process.env.REACT_APP_API_URL + '/resource/')
+			const resources = await fetch(process.env.REACT_APP_API_URL + "/resource", {
+				credentials: "include"
+			});
 			const parsedResource = await resources.json();
+			console.log("parsedResource");
+			console.log(parsedResource);
 			this.setState({
-				resources: parsedResource.data
+				resources: parsedResource.resource
 			})
-		} catch(err) {
-			console.log(err);
+			console.log("this.state - ResourceContainer");
+			console.log(this.state.resources);
+		}
+		catch(err) {
+
 		}
 	}
 
@@ -131,6 +149,7 @@ export default class ResourceContainer extends Component {
 	}
 
 		render(props){
+			console.log("this.state.resources.length > 0 >> ", this.state.resources.length > 0);
 		return(
 			<Grid
 				columns={4} 
@@ -160,14 +179,16 @@ export default class ResourceContainer extends Component {
 	         			handledEditChange={this.handledEditChange}
 	         			/>
 					<Grid.Column>
-						<ResourceList 
-							rescources={this.state.resources}
-							editResource={this.editResource}
-							chosenCategory={this.props.chosenCategory}
-							resourceFocus={this.state.resourceFocus}
-							toggleResourceFocus={this.toggleResourceFocus}
-							increaseNumberOfResourcesOpen={this.increaseNumberOfResourcesOpen}
-						/>
+						{ this.state.resources.length > 0 ?
+							<ResourceList resources={this.state.resources}/>
+							:
+							null
+							//editResource={this.editResource}
+							//chosenCategory={this.props.chosenCategory}
+							//resourceFocus={this.state.resourceFocus}
+							//toggleResourceFocus={this.toggleResourceFocus}
+							//increaseNumberOfResourcesOpen={this.increaseNumberOfResourcesOpen}
+						}
 					</Grid.Column>
 				</Grid.Row>
 			</Grid>

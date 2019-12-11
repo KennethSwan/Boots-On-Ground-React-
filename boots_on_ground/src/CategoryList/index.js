@@ -12,11 +12,11 @@ export default function CategoryList(props){
 				</div>
 			)
 		})
-	}
 
 	return(
 		<div>
-			{categories}
+			{ categories }
 		</div>
-		)
+	)
+}
 }
