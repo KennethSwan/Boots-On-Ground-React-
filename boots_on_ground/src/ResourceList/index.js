@@ -26,11 +26,13 @@ class ResourceList extends Component {
 			return (
 					<div>
 					<h1>{resource.category}</h1>
+					<h2>{resource.org_name}</h2>
 					<h3>{resource.organization}</h3>
+					<h5>{resource._id}</h5>
 					<h4>{resource.description}</h4>
 					<h6>{resource.url}</h6>
-					<Button onClick={() => this.props.editResource(resource.id)}>Edit Resource</Button>
-					<Button>Delete Resource</Button>
+					<Button onClick={() => this.props.editResource(resource._id)}>Edit Resource</Button>
+					<Button onClick={() => this.props.deleteResource(resource._id)}>Delete Resource</Button>
 					<hr/>
 					</div>
 					)

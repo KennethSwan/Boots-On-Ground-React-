@@ -11,9 +11,9 @@ export default class ResourceContainer extends Component {
 		this.state = {
 			resources: [],
 			editModalOpen: false,
-			resourceFocus: false,
+			//resourceFocus: false,
 			resourceToEdit:{
-				org_name: '',
+				organization: '',
 				url: '',
 				phoneNumber: '',
 				email: '',
@@ -45,7 +45,6 @@ export default class ResourceContainer extends Component {
 					'Content-Type': 'application/json'
 				}
 			})
-			console.log(createdResourceResponse);
 			const parsedResponse = await createdResourceResponse.json();
 			console.log(parsedResponse);
 			this.setState({resources: [...this.state.resources, parsedResponse.resource]})
@@ -54,30 +53,16 @@ export default class ResourceContainer extends Component {
 		}
 	}
 
-	// getResource = async () => {
-	//  	try {
-	// 		const resources = await fetch(process.env.REACT_APP_API_URL + '/resource/')
-	//  		const parsedResource = await resources.json();
-	//  		this.setState({
-	//  			resources: parsedResource.data
-	//  		})
-	// 	} catch(err) {
-	//  		console.log(err);
-	//  	}
-	//  }
 	getResource = async () => {
 		try {
 			const resources = await fetch(process.env.REACT_APP_API_URL + "/resource", {
 				credentials: "include"
 			});
 			const parsedResource = await resources.json();
-			console.log("parsedResource");
 			console.log(parsedResource);
 			this.setState({
 				resources: parsedResource.resource
 			})
-			console.log("this.state - ResourceContainer");
-			console.log(this.state.resources);
 		}
 		catch(err) {
 
@@ -85,7 +70,11 @@ export default class ResourceContainer extends Component {
 	}
 
 	editResource = (idOfResourceToEdit) => {
-		const resourceToEdit = this.state.resources.find(resource => resource.id === idOfResourceToEdit)
+		console.log("idOfResourceToEdit in ResourceContainer")
+		console.log(idOfResourceToEdit)
+		const resourceToEdit = this.state.resources.find(resource => resource._id === idOfResourceToEdit)
+		console.log("resourceToEdit in ResourceContainer")
+		console.log(resourceToEdit)
 		this.setState({
 			editModalOpen: true,
 			resourceToEdit:{
@@ -103,37 +92,46 @@ export default class ResourceContainer extends Component {
 		})
 	}
 
-	increaseNumberOfResourcesOpen = (operation) => {
-		if (operation === 'add') {
-			this.setState({
-				numberOfResourcesOpen: this.state.numberOfResourcesOpen + 1
-			})
-		} else {
-			this.setState({
-				numberOfResourcesOpen: this.state.numberOfResourcesOpen - 1
-			})
-		}
-	}
+//	increaseNumberOfResourcesOpen = (operation) => {
+//		if (operation === 'add') {
+//			this.setState({
+//				numberOfResourcesOpen: this.state.numberOfResourcesOpen + 1
+//			})
+//		} else {
+//			this.setState({
+//				numberOfResourcesOpen: this.state.numberOfResourcesOpen - 1
+//			})
+//		}
+//	}
 
-	updateResource = async (e) => {
+	updateResource = async (e, resourceToUpdate) => {
 		e.preventDefault()
+		console.log("this is resourceToUpdate")
+		console.log(resourceToUpdate)
+
 		try {
-			const url = process.env.REACT_APP_API_URL + '/resource/' + this.state.resourceToEdit.idOfResourceToEdit
-			const updateResponse = await fetch(url, {
+			const updateResponse = await fetch(process.env.REACT_APP_API_URL + '/resource/' + this.state.resourceToEdit._id, {
 				method: 'PUT', 
 				credentials: 'include',
-				body: JSON.stringify(this.state.resourceToEdit),
+				body: JSON.stringify(resourceToUpdate),
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			})
+
 			const updateResponseParsed = await updateResponse.json()
+			console.log("here's what we got back from update");
+			console.log(updateResponseParsed);
+
+			// creating an array of resources -- replacing the updated one with new info
 			const newResourcesArrayWithUpdate = this.state.resources.map((resource) => {
-				if(resource.id === updateResponseParsed.data.id) {
+				if(resource._id === updateResponseParsed.data._id) {
+					console.log("replacement");
 					resource = updateResponseParsed.data
 				}
 				return resource
 			})
+
 			this.setState({
 				resources: newResourcesArrayWithUpdate
 			})
@@ -149,8 +147,20 @@ export default class ResourceContainer extends Component {
 		})
 	}
 
+	deleteResource = async (resource) => {
+		console.log(resource);
+		const deleteResourceResponse = await fetch(process.env.REACT_APP_API_URL + '/resource', {
+			method: 'DELETE',
+			credentials: 'include'
+		})
+			const deleteResourceParsed = await deleteResourceResponse.json()
+			console.log(deleteResourceResponse);
+			this.setState({resources: this.state.resources.filter((resources) => resources)})
+			this.getResource()
+	}
+
 		render(props){
-			console.log("this.state.resources.length > 0 >> ", this.state.resources.length > 0);
+			console.log(this.state.resourceToEdit)
 		return(
 			<Grid
 				columns={4} 
@@ -170,16 +180,18 @@ export default class ResourceContainer extends Component {
 	           			null
 		          	}
 	         		</Grid.Column>
-	         		<EditResourceModal
+	         		{this.state.editModalOpen ? 
+	         			<EditResourceModal
 	         			open={this.state.editModalOpen}
 	         			updateResource={this.updateResource}
-	         			resourceToEdit={this.editResource}
+	         			resourceToEdit={this.state.resourceToEdit}
 	         			closeEditModal={this.closeEditModal}
 	         			handledEditChange={this.handledEditChange}
-	         			/>
+	         			/>:
+	         			null}
 					<Grid.Column>
 						{ this.state.resources.length > 0 ?
-							<ResourceList resources={this.state.resources} editResource={this.editResource}/>
+							<ResourceList resources={this.state.resources} editResource={this.editResource} deleteResource={this.deleteResource}/>
 							:
 							null
 						}
